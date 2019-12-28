@@ -20,12 +20,22 @@ class ColumnGuide : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            getColums("Alex", "Filippov")
+            getColums("Alex", "Filippov",
+                onInfoClick = {
+
+            },
+                onShareClick = {
+
+                })
         }
     }
 
     @Composable
-    fun getColums(name: String, surname: String) {
+    fun getColums(
+        name: String, surname: String,
+        onInfoClick: (() -> Unit)? = null,
+        onShareClick: (() -> Unit)? = null
+    ) {
         val background = +imageResource(R.drawable.ic_background)
         MaterialTheme {
             Column(
@@ -53,6 +63,29 @@ class ColumnGuide : AppCompatActivity() {
                     style = +themeTextStyle { h4 }
                 )
             }
+            Padding(padding = 10.dp) {
+                Row(
+                    crossAxisAlignment = CrossAxisAlignment.End,
+                    mainAxisAlignment = MainAxisAlignment.End
+                ) {
+                    Button(
+                        onClick = onInfoClick,
+                        style = TextButtonStyle()
+
+                    ) {
+                        Text("info")
+                    }
+                    WidthSpacer(10.dp)
+                    Button(
+                        onClick = onShareClick,
+                        style = TextButtonStyle()
+                    ) {
+                        Text("more")
+                    }
+                }
+
+            }
+
         }
     }
 }

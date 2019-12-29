@@ -2,8 +2,11 @@ package com.alfilippov.jetpackcompose
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.compose.Composable
 import androidx.compose.unaryPlus
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.ui.core.*
 import androidx.ui.foundation.DrawImage
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
@@ -13,79 +16,18 @@ import androidx.ui.material.*
 import androidx.ui.material.surface.Surface
 import androidx.ui.res.imageResource
 import androidx.ui.text.TextStyle
+import com.alfilippov.jetpackcompose.viewmodel.MainViewModel
 import kotlinx.coroutines.NonCancellable.children
 
 class ColumnGuide : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            getColums("Alex", "Filippov",
-                onInfoClick = {
+        val mainViewModel: MainViewModel =
+            ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mainViewModel.fetchData()
 
-            },
-                onShareClick = {
-
-                })
-        }
     }
 
-    @Composable
-    fun getColums(
-        name: String, surname: String,
-        onInfoClick: (() -> Unit)? = null,
-        onShareClick: (() -> Unit)? = null
-    ) {
-        val background = +imageResource(R.drawable.ic_background)
-        MaterialTheme {
-            Column(
-                crossAxisSize = LayoutSize.Expand,
-                modifier = Spacing(20.dp)
-            ) {
-                Container(expanded = true, height = 180.dp) {
-                    Clip(shape = RoundedCornerShape(20.dp)) {
-                        DrawImage(background)
-                    }
 
-                }
-                WidthSpacer(20.dp)
-                HeightSpacer(50.dp)
-
-                Text(
-                    name,
-                    style = +themeTextStyle { h6 }
-                )
-
-                HeightSpacer(5.dp)
-                Divider(color = +themeColor { primary })
-                Text(
-                    surname,
-                    style = +themeTextStyle { h4 }
-                )
-            }
-            Padding(padding = 10.dp) {
-                Row(
-                    crossAxisAlignment = CrossAxisAlignment.End,
-                    mainAxisAlignment = MainAxisAlignment.End
-                ) {
-                    Button(
-                        onClick = onInfoClick,
-                        style = TextButtonStyle()
-
-                    ) {
-                        Text("info")
-                    }
-                    WidthSpacer(10.dp)
-                    Button(
-                        onClick = onShareClick,
-                        style = TextButtonStyle()
-                    ) {
-                        Text("more")
-                    }
-                }
-
-            }
-
-        }
-    }
 }
